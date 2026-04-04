@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crates — Album Manager for TIDAL</title>
+  <meta name="description" content="A collector's album manager for TIDAL. Browse, sort, and curate your saved albums by artist, genre, decade, and audio quality." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0f0f0f;
+      --surface:      #141414;
+      --border:       #222222;
+      --text:         #f0f0f0;
+      --text-dim:     #888888;
+      --text-muted:   #444444;
+
+      /* MCM terracotta palette */
+      --terracotta:   #AD4F30;
+      --terracotta-dim: #7a3820;
+      --teal:         #4a7c7e;
+      --amber:        #b8832a;
+      --sage:         #5a7a52;
+      --dusk:         #4a5878;
+      --olive:        #7a7a3a;
+      --rose:         #9a5252;
+      --gold:         #c49a28;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,15,15,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .nav-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav-wordmark {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--text);
+    }
+
+    .nav-sub {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 96px 24px 72px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6.5vw, 68px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--terracotta);
+    }
+
+    .hero p {
+      font-size: clamp(15px, 2.2vw, 18px);
+      color: var(--text-dim);
+      max-width: 520px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    /* ── Quality tier strip ── */
+    .quality-strip {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 52px;
+      flex-wrap: wrap;
+    }
+
+    .quality-pill {
+      border: 1px solid var(--terracotta);
+      padding: 8px 18px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      font-family: 'Menlo', 'Courier New', monospace;
+    }
+
+    .quality-pill.dim {
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    .quality-caption {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .hero-availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--terracotta);
+      color: var(--terracotta);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      font-family: 'Menlo', 'Courier New', monospace;
+    }
+
+    .hero-sub {
+      display: block;
+      margin-top: 16px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── Divider ── */
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ── Sections ── */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 52px;
+      color: var(--text);
+    }
+
+    /* ── Feature grid ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .feature-card {
+      background: var(--surface);
+      padding: 32px 28px;
+      border-left: 3px solid transparent;
+    }
+
+    .feature-card:nth-child(1) { border-left-color: var(--terracotta); }
+    .feature-card:nth-child(2) { border-left-color: var(--gold); }
+    .feature-card:nth-child(3) { border-left-color: var(--teal); }
+    .feature-card:nth-child(4) { border-left-color: var(--amber); }
+    .feature-card:nth-child(5) { border-left-color: var(--sage); }
+    .feature-card:nth-child(6) { border-left-color: var(--dusk); }
+    .feature-card:nth-child(7) { border-left-color: var(--olive); }
+    .feature-card:nth-child(8) { border-left-color: var(--rose); }
+
+    .feature-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .feature-card:nth-child(1) .feature-tag { color: var(--terracotta); }
+    .feature-card:nth-child(2) .feature-tag { color: var(--gold); }
+    .feature-card:nth-child(3) .feature-tag { color: var(--teal); }
+    .feature-card:nth-child(4) .feature-tag { color: var(--amber); }
+    .feature-card:nth-child(5) .feature-tag { color: var(--sage); }
+    .feature-card:nth-child(6) .feature-tag { color: var(--dusk); }
+    .feature-card:nth-child(7) .feature-tag { color: var(--olive); }
+    .feature-card:nth-child(8) .feature-tag { color: var(--rose); }
+
+    .feature-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    footer p {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-icon">
+        <img src="assets/icon.png" alt="crates icon" />
+      </div>
+      <div>
+        <div class="nav-wordmark">crates</div>
+        <div class="nav-sub">Album Manager for TIDAL</div>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <p class="hero-eyebrow">For the high-fidelity album collector</p>
+    <h1>Your TIDAL library.<br /><em>Album first.</em></h1>
+    <p>TIDAL is built for tracks and playlists. crates is built for albums — giving you a deliberate, collector's way to browse, organize, and play your saved library by what matters.</p>
+
+    <!-- Quality tier strip -->
+    <div class="quality-strip">
+      <div class="quality-pill">Hi-Res Lossless</div>
+      <div class="quality-pill">Lossless</div>
+      <div class="quality-pill dim">High</div>
+      <div class="quality-pill dim">Low</div>
+    </div>
+    <p class="quality-caption">Browse your collection by audio quality — only possible with TIDAL</p>
+
+    <div class="hero-availability">Personal · TestFlight + Android Sideload</div>
+    <span class="hero-sub">Third-party companion app · Not affiliated with TIDAL AS</span>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <p class="section-label">What crates Does</p>
+    <h2>A collector's tool.<br />Not another streaming UI.</h2>
+
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <p class="feature-tag">Signature Feature</p>
+        <h3>Browse by Audio Quality</h3>
+        <p>TIDAL tells you the quality tier of every album in your collection — Hi-Res Lossless, Lossless, High, Low. crates surfaces this as a first-class view mode. Know exactly what you own at the highest fidelity.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Home</p>
+        <h3>Your Crates, Front and Center</h3>
+        <p>crates opens to your named crates — not a firehose of hundreds of albums. Each crate is a visual badge in a mid-century terracotta palette, representing your curatorial intent.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Browse</p>
+        <h3>Sort Your Full Collection</h3>
+        <p>Dig into your entire TIDAL library sorted by artist, decade, genre, quality, or recently added. Search is always visible. This is where you find what goes in your crates.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Curation</p>
+        <h3>Organize Into Named Crates</h3>
+        <p>Create crates for any intent — Jazz Fusion, Late Night, Road Trip, MQA Showcase. Add albums with a single tap. Albums can live in multiple crates simultaneously.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Discovery</p>
+        <h3>Long Press to Peek Inside</h3>
+        <p>Long press any crate badge to reveal a random selection of album art from inside. A living, tactile reminder of what's waiting — rediscovery built into the gesture.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Playback</p>
+        <h3>Play Instantly in TIDAL</h3>
+        <p>Tap any album to open it directly in the official TIDAL app. crates hands off via deep link and gets out of the way. One tap, always.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Metadata</p>
+        <h3>Real Genre Data</h3>
+        <p>TIDAL's genre data is incomplete. crates enriches your library automatically using MusicBrainz — so Genre sorting actually reflects what you own.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Privacy</p>
+        <h3>No Account. No Server.</h3>
+        <p>Your library data and crate organization live in a local database on your device. Nothing leaves your phone. There is no crates cloud.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <footer>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="mailto:ajmauer@gmail.com">Support</a>
+    </div>
+    <p>crates is not affiliated with TIDAL AS. TIDAL is a registered trademark of TIDAL AS.</p>
+  </footer>
+
+</body>
+</html>

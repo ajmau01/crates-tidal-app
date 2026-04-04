@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — crates for TIDAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0e0e0e;
+      --surface:    #161616;
+      --border:     rgba(255,255,255,0.08);
+      --accent:     #AD4F30;
+      --text:       #f0ede6;
+      --text-dim:   #9e9a90;
+      --text-muted: #5a5750;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14,14,14,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-decoration: none;
+    }
+
+    .nav-back {
+      font-size: 14px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-back:hover { color: var(--text); }
+
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 64px 24px 96px;
+    }
+
+    .content h1 {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .updated {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+    }
+
+    .content h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 40px 0 12px;
+    }
+
+    .content p {
+      font-size: 15px;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .content ul {
+      list-style: none;
+      margin: 0 0 16px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .content ul li {
+      font-size: 15px;
+      color: var(--text-dim);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .content ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    .content a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .content a:hover { text-decoration: underline; }
+
+    .highlight-box {
+      background: rgba(173,79,48,0.07);
+      border: 1px solid rgba(173,79,48,0.25);
+      padding: 20px 24px;
+      margin: 32px 0;
+    }
+
+    .highlight-box p {
+      color: var(--text);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">crates</a>
+    <a href="index.html" class="nav-back">← Back</a>
+  </nav>
+
+  <div class="content">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: April 3, 2026</p>
+
+    <div class="highlight-box">
+      <p><strong>Short version:</strong> crates does not collect, store, or transmit your personal data to any server. Everything stays on your device.</p>
+    </div>
+
+    <h2>What Data crates Accesses</h2>
+    <p>crates connects to your TIDAL account using OAuth 2.0 to read the following information:</p>
+    <ul>
+      <li>Your saved album library (album names, artists, artwork, release dates, audio quality tiers)</li>
+      <li>Your TIDAL display name (shown in the app settings)</li>
+      <li>Track listings for albums you open (fetched on demand)</li>
+    </ul>
+    <p>This data is requested using the <code>user.read</code> and <code>collection.read</code> scopes only. crates does not request access to your listening history, playlists, personal messages, or any other TIDAL data.</p>
+
+    <h2>Where Your Data Is Stored</h2>
+    <p>All data — including your album library, crate organization, and TIDAL credentials — is stored exclusively in a local SQLite database on your device. Nothing is sent to any crates server, because there is no crates server.</p>
+    <p>Your TIDAL access tokens are stored in your device's secure storage (iOS Keychain / Android Keystore) and are never logged or transmitted.</p>
+
+    <h2>Third-Party Services</h2>
+    <p><strong>TIDAL</strong>: crates communicates directly with the TIDAL API to sync your album library and fetch track listings. Your interaction with TIDAL is governed by <a href="https://tidal.com/privacy" target="_blank">TIDAL's Privacy Policy</a>.</p>
+    <p><strong>MusicBrainz</strong>: crates queries the MusicBrainz open database to enrich album genre metadata. Album identifiers (artist name, album name) are sent to MusicBrainz to retrieve genre information. MusicBrainz is a non-profit open music encyclopedia. No personal information is shared. Their privacy policy is available at <a href="https://metabrainz.org/privacy" target="_blank">metabrainz.org/privacy</a>.</p>
+    <p>crates does not use any analytics services, advertising networks, or crash reporting tools that collect personal data.</p>
+
+    <h2>Data Sharing</h2>
+    <p>crates does not sell, share, or transfer your data to any third parties. There is no crates account, no user database, and no backend infrastructure that holds your information.</p>
+
+    <h2>Data Deletion</h2>
+    <p>Uninstalling crates removes all locally stored data from your device. To revoke crates' access to your TIDAL account at any time, visit your TIDAL account settings and remove crates from the list of connected applications.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>crates is not directed at children under 13. We do not knowingly collect any information from children.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>If this policy changes materially, the updated version will be posted at this URL with a revised date. Continued use of the app after any changes constitutes acceptance of the updated policy.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about this privacy policy? Email <a href="mailto:ajmauer@gmail.com">ajmauer@gmail.com</a>.</p>
+  </div>
+
+  <footer>
+    <p>crates is not affiliated with TIDAL AS. TIDAL is a registered trademark of TIDAL AS.</p>
+  </footer>
+
+</body>
+</html>
