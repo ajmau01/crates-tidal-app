@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>crates — Album Manager for TIDAL</title>
-  <meta name="description" content="A collector's album manager for TIDAL. Browse, sort, and curate your saved albums by artist, genre, decade, and audio quality." />
+  <meta name="description" content="A collector's album manager for TIDAL. Browse, tag, and curate your saved albums by artist, genre, decade, audio quality, and your own custom tags." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
@@ -28,6 +28,8 @@
       --olive:        #7a7a3a;
       --rose:         #9a5252;
       --gold:         #c49a28;
+      --plum:         #7a4a7a;
+      --steel:        #4a6878;
     }
 
     html { scroll-behavior: smooth; }
@@ -179,7 +181,43 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 40px;
+      margin-bottom: 52px;
+    }
+
+    /* ── Tab bar strip ── */
+    .tab-bar-wrap {
+      text-align: center;
+    }
+
+    .nav-tabs-strip {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .nav-tab {
+      padding: 10px 28px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-right: 1px solid var(--border);
+      font-family: 'Menlo', 'Courier New', monospace;
+    }
+
+    .nav-tab:last-child { border-right: none; }
+
+    .nav-tab.active {
+      color: var(--terracotta);
+      border-bottom: 2px solid var(--terracotta);
+    }
+
+    .nav-tabs-caption {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
 
     /* ── Divider ── */
@@ -230,14 +268,16 @@
       border-left: 3px solid transparent;
     }
 
-    .feature-card:nth-child(1) { border-left-color: var(--terracotta); }
-    .feature-card:nth-child(2) { border-left-color: var(--gold); }
-    .feature-card:nth-child(3) { border-left-color: var(--teal); }
-    .feature-card:nth-child(4) { border-left-color: var(--amber); }
-    .feature-card:nth-child(5) { border-left-color: var(--sage); }
-    .feature-card:nth-child(6) { border-left-color: var(--dusk); }
-    .feature-card:nth-child(7) { border-left-color: var(--olive); }
-    .feature-card:nth-child(8) { border-left-color: var(--rose); }
+    .feature-card:nth-child(1)  { border-left-color: var(--terracotta); }
+    .feature-card:nth-child(2)  { border-left-color: var(--gold); }
+    .feature-card:nth-child(3)  { border-left-color: var(--teal); }
+    .feature-card:nth-child(4)  { border-left-color: var(--amber); }
+    .feature-card:nth-child(5)  { border-left-color: var(--sage); }
+    .feature-card:nth-child(6)  { border-left-color: var(--dusk); }
+    .feature-card:nth-child(7)  { border-left-color: var(--olive); }
+    .feature-card:nth-child(8)  { border-left-color: var(--rose); }
+    .feature-card:nth-child(9)  { border-left-color: var(--plum); }
+    .feature-card:nth-child(10) { border-left-color: var(--steel); }
 
     .feature-tag {
       font-size: 9px;
@@ -247,14 +287,16 @@
       margin-bottom: 12px;
     }
 
-    .feature-card:nth-child(1) .feature-tag { color: var(--terracotta); }
-    .feature-card:nth-child(2) .feature-tag { color: var(--gold); }
-    .feature-card:nth-child(3) .feature-tag { color: var(--teal); }
-    .feature-card:nth-child(4) .feature-tag { color: var(--amber); }
-    .feature-card:nth-child(5) .feature-tag { color: var(--sage); }
-    .feature-card:nth-child(6) .feature-tag { color: var(--dusk); }
-    .feature-card:nth-child(7) .feature-tag { color: var(--olive); }
-    .feature-card:nth-child(8) .feature-tag { color: var(--rose); }
+    .feature-card:nth-child(1)  .feature-tag { color: var(--terracotta); }
+    .feature-card:nth-child(2)  .feature-tag { color: var(--gold); }
+    .feature-card:nth-child(3)  .feature-tag { color: var(--teal); }
+    .feature-card:nth-child(4)  .feature-tag { color: var(--amber); }
+    .feature-card:nth-child(5)  .feature-tag { color: var(--sage); }
+    .feature-card:nth-child(6)  .feature-tag { color: var(--dusk); }
+    .feature-card:nth-child(7)  .feature-tag { color: var(--olive); }
+    .feature-card:nth-child(8)  .feature-tag { color: var(--rose); }
+    .feature-card:nth-child(9)  .feature-tag { color: var(--plum); }
+    .feature-card:nth-child(10) .feature-tag { color: var(--steel); }
 
     .feature-card h3 {
       font-size: 15px;
@@ -325,7 +367,7 @@
   <section class="hero">
     <p class="hero-eyebrow">For the high-fidelity album collector</p>
     <h1>Your TIDAL library.<br /><em>Album first.</em></h1>
-    <p>TIDAL is built for tracks and playlists. crates is built for albums — giving you a deliberate, collector's way to browse, organize, and play your saved library by what matters.</p>
+    <p>TIDAL is built for tracks and playlists. crates is built for albums — a deliberate, collector's way to browse, tag, and organize your saved library by what matters.</p>
 
     <!-- Quality tier strip -->
     <div class="quality-strip">
@@ -335,6 +377,16 @@
       <div class="quality-pill dim">Low</div>
     </div>
     <p class="quality-caption">Browse your collection by audio quality — only possible with TIDAL</p>
+
+    <!-- Tab bar strip -->
+    <div class="tab-bar-wrap">
+      <div class="nav-tabs-strip">
+        <div class="nav-tab active">Collection</div>
+        <div class="nav-tab">Crates</div>
+        <div class="nav-tab">Search</div>
+      </div>
+      <p class="nav-tabs-caption">Three views. Always one tap away.</p>
+    </div>
 
   </section>
 
@@ -354,27 +406,39 @@
       </div>
 
       <div class="feature-card">
-        <p class="feature-tag">Home</p>
-        <h3>Your Crates, Front and Center</h3>
-        <p>crates opens to your named crates — not a firehose of hundreds of albums. Each crate is a visual badge in a mid-century terracotta palette, representing your curatorial intent.</p>
+        <p class="feature-tag">Tagging</p>
+        <h3>Tag Your Albums, Your Way</h3>
+        <p>Create your own tags — Late Night, Road Trip, Jazz Fusion, anything. Apply multiple tags to any album with a long press. Browse your entire library by tag, and see at a glance which albums are tagged from the collection view.</p>
       </div>
 
       <div class="feature-card">
-        <p class="feature-tag">Browse</p>
-        <h3>Sort Your Full Collection</h3>
-        <p>Dig into your entire TIDAL library sorted by artist, decade, genre, quality, or recently added. Search is always visible. This is where you find what goes in your crates.</p>
+        <p class="feature-tag">Collection</p>
+        <h3>Your Full Library, Instantly</h3>
+        <p>crates opens to your full TIDAL album collection. Browse by artist, genre, decade, quality, recently added, or your own tags. Every view mode is one tap away from the top of the screen.</p>
       </div>
 
       <div class="feature-card">
-        <p class="feature-tag">Curation</p>
+        <p class="feature-tag">Crates</p>
         <h3>Organize Into Named Crates</h3>
         <p>Create crates for any intent — Jazz Fusion, Late Night, Road Trip, MQA Showcase. Add albums with a single tap. Albums can live in multiple crates simultaneously.</p>
       </div>
 
       <div class="feature-card">
+        <p class="feature-tag">Search</p>
+        <h3>Search and Add to Your Collection</h3>
+        <p>Search the full TIDAL catalog by title or artist directly inside crates. Preview artwork, creator, and release year before adding. Albums land in your TIDAL collection and sync back to crates automatically.</p>
+      </div>
+
+      <div class="feature-card">
         <p class="feature-tag">Discovery</p>
-        <h3>Long Press to Peek Inside</h3>
-        <p>Long press any crate badge to reveal a random selection of album art from inside. A living, tactile reminder of what's waiting — rediscovery built into the gesture.</p>
+        <h3>Random Album Picker</h3>
+        <p>Can't decide what to play? Hit the dice. crates picks a random album from your collection and opens it ready to play. The best albums are the ones you forgot you had.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Discovery</p>
+        <h3>Long Press to Peek Inside a Crate</h3>
+        <p>Long press any crate to reveal a random shuffle of album art from inside. A living, tactile reminder of what's waiting — rediscovery built into the gesture.</p>
       </div>
 
       <div class="feature-card">
@@ -392,7 +456,7 @@
       <div class="feature-card">
         <p class="feature-tag">Privacy</p>
         <h3>No Account. No Server.</h3>
-        <p>Your library data and crate organization live in a local database on your device. Nothing leaves your phone. There is no crates cloud.</p>
+        <p>Your library data, crates, and tags live in a local database on your device. Nothing leaves your phone. There is no crates cloud.</p>
       </div>
 
     </div>
@@ -405,6 +469,7 @@
       <a href="privacy.html">Privacy Policy</a>
       <a href="mailto:ajmauer@gmail.com">Support</a>
     </div>
+    <p>crates is not affiliated with TIDAL AS.</p>
   </footer>
 
 </body>
