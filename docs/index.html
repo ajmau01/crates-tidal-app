@@ -151,6 +151,39 @@
       line-height: 1.7;
     }
 
+    /* ── Download button ── */
+    .download-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 52px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--terracotta);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+
+    .download-btn:hover { opacity: 0.85; }
+
+    .download-meta {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
     /* ── Quality tier strip ── */
     .quality-strip {
       display: flex;
@@ -359,6 +392,7 @@
     </div>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
+      <li><a href="https://github.com/ajmau01/crates-tidal-app/releases/latest/download/Crates-v0.2.0.apk">Download</a></li>
       <li><a href="privacy.html">Privacy</a></li>
     </ul>
   </nav>
@@ -368,6 +402,14 @@
     <p class="hero-eyebrow">For the high-fidelity album collector</p>
     <h1>Your TIDAL library.<br /><em>Album first.</em></h1>
     <p>TIDAL is built for tracks and playlists. crates is built for albums — a deliberate, collector's way to browse, tag, and organize your saved library by what matters.</p>
+
+    <!-- Download -->
+    <div class="download-wrap">
+      <a class="download-btn" href="https://github.com/ajmau01/crates-tidal-app/releases/latest/download/Crates-v0.2.0.apk">
+        ↓ Download for Android
+      </a>
+      <p class="download-meta">v0.2.0 · Sideload required · Android only</p>
+    </div>
 
     <!-- Quality tier strip -->
     <div class="quality-strip">
@@ -450,7 +492,19 @@
       <div class="feature-card">
         <p class="feature-tag">Metadata</p>
         <h3>Real Genre Data</h3>
-        <p>TIDAL's genre data is incomplete. crates enriches your library automatically using MusicBrainz — so Genre sorting actually reflects what you own.</p>
+        <p>TIDAL's genre data is incomplete. crates enriches your library automatically using Last.fm — so Genre sorting actually reflects what you own.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Collection</p>
+        <h3>Remove Albums from Your Collection</h3>
+        <p>Long press any album and open its detail view to remove it from your TIDAL collection directly. A confirmation step keeps accidental taps from doing damage.</p>
+      </div>
+
+      <div class="feature-card">
+        <p class="feature-tag">Search</p>
+        <h3>Full Artist Discography</h3>
+        <p>Search by artist and browse their complete catalog — not just recent releases. Paginated across TIDAL's full archive. Toggle between newest-first and oldest-first to dig through a back catalog in order.</p>
       </div>
 
       <div class="feature-card">
